@@ -316,6 +316,11 @@ class Ui_MainWindow(object):
         self.label.setObjectName("label")
 #----------------------------------------------------------------------------------------------------
 
+        self.btnBack = QtWidgets.QPushButton(self.centralwidget)
+        self.btnBack.setGeometry(QtCore.QRect(30, 800, 93, 28))
+        self.btnBack.setObjectName("btnBack")
+        
+      
 
 
         self.lBackground.raise_()
@@ -347,6 +352,7 @@ class Ui_MainWindow(object):
         self.label_4.raise_()
         self.plainTextEdit_4.raise_()
         self.pushButton.raise_()
+        self.btnBack.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1196, 26))
@@ -362,6 +368,8 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+
+        self.btnBack.setText(_translate("MainWindow", "Back"))
 
 #---------------------------------category buttons (left hand side)-------------------
         self.btnCat1.setText(_translate("MainWindow", "Audiobooks"))
