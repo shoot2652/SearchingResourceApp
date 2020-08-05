@@ -386,7 +386,7 @@ class Ui_MainWindow(object):
         self.btnCat14.setText(_translate("MainWindow", "LOTE"))
         self.btnCat12.setText(_translate("MainWindow", "EBOOKS"))
         self.btnCat16.setText(_translate("MainWindow", "Educational Resources"))
-        self.btnCat15.setText(_translate("MainWindow", "Other resources"))
+        self.btnCat15.setText(_translate("MainWindow", "Other Resources"))
         self.btnCat10.setText(_translate("MainWindow", "Movies"))
 
 #-------------------------------Items in combo box-----------------------------
@@ -405,8 +405,8 @@ class Ui_MainWindow(object):
         self.comboBox.setItemText(10, _translate("MainWindow", "Science Subjects"))
         self.comboBox.setItemText(11, _translate("MainWindow", "LOTE"))
         self.comboBox.setItemText(12, _translate("MainWindow", "EBOOKS"))
-        self.comboBox.setItemText(13, _translate("MainWindow", "Educational resources"))
-        self.comboBox.setItemText(14, _translate("MainWindow", "Other resources"))
+        self.comboBox.setItemText(13, _translate("MainWindow", "Educational Resources"))
+        self.comboBox.setItemText(14, _translate("MainWindow", "Other Resources"))
         self.comboBox.setItemText(15, _translate("MainWindow", "Movies"))
 
         self.label_3.setText(_translate("MainWindow", "Description:"))
@@ -775,7 +775,7 @@ class Ui_MainWindow(object):
         for x in csvFile:
                 x=x.rstrip("\n")
                 x=x.split(",")
-                if x[3]=="Other resources":
+                if x[3]=="Other Resources":
                         templist2=[x[0],x[1],x[2]]
                         templist.append(templist2)
         for y in templist:
@@ -798,7 +798,7 @@ class Ui_MainWindow(object):
         for x in csvFile:
                 x=x.rstrip("\n")
                 x=x.split(",")
-                if x[3]=="Educational resources":
+                if x[3]=="Educational Resources":
                         templist2=[x[0],x[1],x[2]]
                         templist.append(templist2)
         for y in templist:
