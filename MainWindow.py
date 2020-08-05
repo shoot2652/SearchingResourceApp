@@ -255,7 +255,7 @@ class Ui_MainWindow(object):
         self.label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label.setObjectName("label")
 #---------------------------------------------------------------------------------------------
-
+        
 
         self.btnCat1.raise_()
         self.btnCat2.raise_()
@@ -673,7 +673,7 @@ class Ui_MainWindow(object):
         for x in csvFile:
                 x=x.rstrip("\n")
                 x=x.split(",")
-                if x[3]=="Educational resources":
+                if x[3]=="Educational Resources":
                         templist2=[x[0],x[1],x[2]]
                         templist.append(templist2)
         for y in templist:
