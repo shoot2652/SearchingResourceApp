@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import AddResource
+import csv
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -22,12 +23,14 @@ class Ui_MainWindow(object):
         self.lSearchForResource = QtWidgets.QLabel(self.centralwidget)
         self.lSearchForResource.setGeometry(QtCore.QRect(280, 190, 131, 16))
         self.lSearchForResource.setObjectName("lSearchForResource")
+        
         self.pteSearch = QtWidgets.QPlainTextEdit(self.centralwidget)
         self.pteSearch.setGeometry(QtCore.QRect(280, 210, 681, 31))
         self.pteSearch.setObjectName("pteSearch")
         self.btnSearch = QtWidgets.QPushButton(self.centralwidget)
         self.btnSearch.setGeometry(QtCore.QRect(970, 210, 93, 28))
         self.btnSearch.setObjectName("btnSearch")
+        self.btnSearch.clicked.connect(self.searchButtonPressed)
         self.btnAddResource = QtWidgets.QPushButton(self.centralwidget)
         self.btnAddResource.setGeometry(QtCore.QRect(870, 250, 91, 31))
         self.btnAddResource.setObjectName("btnAddResource")
@@ -248,7 +251,7 @@ class Ui_MainWindow(object):
         self.btnSearch.raise_()
         self.btnAddResource.raise_()
         self.lCategories.raise_()
-
+        
 #---------------------------------------------------------------------------------
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(225, 285, 900, 900)) #x,y,w,h
@@ -689,8 +692,29 @@ class Ui_MainWindow(object):
         self.label.setText(tempstr)
 
 #------------------------------------------------------------------
-
-
+    def searchButtonPressed(self):
+            namelist=[]
+            with open('Resource list.csv') as csvDataFile:
+                csvReader= csv.reader(csvDataFile)
+                c=self.pteSearch.toPlainText().lower()
+                for row in csvReader:
+                        
+                        if c in row[0].lower():
+                                namelist.append(row)
+                        elif not row[1]=="":
+                                if c in row[1].lower():
+                                        namelist.append(row)
+                        elif not row[2]=="":
+                                if c in row[2].lower():
+                                        namelist.append(row)
+                        elif c in row[3].lower():
+                                namelist.append(row)
+                        
+                b=""
+                for a in namelist:
+                        b+=str(a) + "\n"
+                self.label.setText(b)
+                
 
 
 if __name__ == "__main__":
