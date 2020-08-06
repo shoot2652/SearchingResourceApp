@@ -6,7 +6,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 import csv 
-
+import main
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
@@ -92,7 +92,7 @@ class Ui_MainWindow(object):
 "border: none;\n"
 "background-repeat: none;")
         self.btnCat4.setObjectName("btnCat4")
-        self.btnCat4.clicked.connect(self.clickCat4)
+        self.btnCat4.clicked.connect(self.clickCat4) 
         self.btnCat4.clicked.connect(self.hideAll)
 
 
@@ -114,6 +114,7 @@ class Ui_MainWindow(object):
 "border: none;\n"
 "background-repeat: none;")
         self.btnCat3.setObjectName("btnCat3")
+        self.btnCat3.clicked.connect(self.clickCat3)
         self.btnCat3.clicked.connect(self.hideAll)
 
 
@@ -126,6 +127,7 @@ class Ui_MainWindow(object):
 "border: none;\n"
 "background-repeat: none;")
         self.btnCat8.setObjectName("btnCat8")
+        self.btnCat8.clicked.connect(self.clickCat8)
         self.btnCat8.clicked.connect(self.hideAll)
 
 
@@ -144,6 +146,7 @@ class Ui_MainWindow(object):
 "border: none;\n"
 "background-repeat: none;")
         self.btnCat14.setObjectName("btnCat14")
+        self.btnCat14.clicked.connect(self.clickCat14)
         self.btnCat14.clicked.connect(self.hideAll)
 
 
@@ -156,6 +159,7 @@ class Ui_MainWindow(object):
 "border: none;\n"
 "background-repeat: none;")
         self.btnCat11.setObjectName("btnCat11")
+        self.btnCat11.clicked.connect(self.clickCat11)
         self.btnCat11.clicked.connect(self.hideAll)
 
 
@@ -168,6 +172,7 @@ class Ui_MainWindow(object):
 "border: none;\n"
 "background-repeat: none;")
         self.btnCat6.setObjectName("btnCat6")
+        self.btnCat6.clicked.connect(self.clickCat6)
         self.btnCat6.clicked.connect(self.hideAll)
 
 
@@ -365,11 +370,15 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        #self.btnBack.clicked.connect(self.openMain)
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
 
         self.btnBack.setText(_translate("MainWindow", "Back"))
+
+
 
 #---------------------------------category buttons (left hand side)-------------------
         self.btnCat1.setText(_translate("MainWindow", "Audiobooks"))
@@ -387,7 +396,7 @@ class Ui_MainWindow(object):
         self.btnCat12.setText(_translate("MainWindow", "EBOOKS"))
         self.btnCat16.setText(_translate("MainWindow", "Educational Resources"))
         self.btnCat15.setText(_translate("MainWindow", "Other Resources"))
-        self.btnCat10.setText(_translate("MainWindow", "Movies"))
+        self.btnCat10.setText(_translate("MainWindow", "Movies"))      
 
 #-------------------------------Items in combo box-----------------------------
         self.label.setText(_translate("MainWindow", "Title:"))
@@ -408,13 +417,10 @@ class Ui_MainWindow(object):
         self.comboBox.setItemText(13, _translate("MainWindow", "Educational Resources"))
         self.comboBox.setItemText(14, _translate("MainWindow", "Other Resources"))
         self.comboBox.setItemText(15, _translate("MainWindow", "Movies"))
-
         self.label_3.setText(_translate("MainWindow", "Description:"))
         self.label_4.setText(_translate("MainWindow", "Adding New Resource:"))
         self.plainTextEdit_4.setText(_translate("MainWindow", "Instructions:\n Add the the required information that is needed on the right-hand side of the heading.\nOnce the user clicks the \'add resource\' button, the information will be stored within the program."))
         self.pushButton.setText(_translate("MainWindow", "Add Resource"))
-
-
     def saving(self):
             Title = ""
             Author = ""
@@ -664,8 +670,6 @@ class Ui_MainWindow(object):
                         templist2=[x[0],x[1],x[2]]
                         templist.append(templist2)
         for y in templist:
-                print(y)
-                y=str(y)
                 for z in y:
                         print(z)
                         if z in self.clist:
@@ -815,6 +819,12 @@ class Ui_MainWindow(object):
             
  #------------------------------------------------------------------------------
                                  
+#     def openMain(self):
+#         self.childWin = QtWidgets.QMainWindow()
+#         self.childui = main.Ui_MainWindow()
+#         self.childui.setupUi(self.childWin)
+#         self.childWin.show()
+
 
 if __name__ == "__main__":
     import sys
