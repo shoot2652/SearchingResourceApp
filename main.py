@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'Main windows for program FTB.ui'
-#
-# Created by: PyQt5 UI code generator 5.13.2
-#
-# WARNING! All changes made in this file will be lost!
+#-------------------------------------------------------------------------------------------------------------------------------
+##Title: Finding the book (MainWindow)
+##Author: Michael Curcio
+##Description: This is the first/main window for the FTB program. This window is primarily used for searching for a resource.
+##This window has a button to access the 'AddingResource' window. It also has sixteen category buttons on the left hand side 
+##to help the user fidn what resource they are looking for
+#-------------------------------------------------------------------------------------------------------------------------------
 
 csvFile=open("Resource list.csv")
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -13,9 +13,10 @@ import csv
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-#-----------------------------------------------------------
+#------------------Data validation for categories---------------------------------------
         self.clist=["'","[","]"]
 #-----------------------------------------------------------
+
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1208, 866)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -44,7 +45,7 @@ class Ui_MainWindow(object):
         self.lCategories.setFont(font)
         self.lCategories.setObjectName("lCategories")
 
-#--------------------------------------------------------------------------------------------------------------------    
+#---------------------------Category buttons-----------------------------------------------------------------------------------------    
         self.btnCat1 = QtWidgets.QPushButton(self.centralwidget)
         self.btnCat1.setGeometry(QtCore.QRect(10, 310, 191, 28))
         self.btnCat1.setStyleSheet("background-color: transparent;\n"
@@ -236,7 +237,7 @@ class Ui_MainWindow(object):
         self.btnCat10.clicked.connect(self.clickCat10)
 
 
-#--------------------------------------------------------------------------------------------------
+#---------------------Gui Stuff-----------------------------------------------------------------------------
         self.lLogo = QtWidgets.QLabel(self.centralwidget)
         self.lLogo.setGeometry(QtCore.QRect(0, 0, 1280, 261))
         self.lLogo.setText("")
@@ -255,14 +256,14 @@ class Ui_MainWindow(object):
         self.btnAddResource.raise_()
         self.lCategories.raise_()
         
-#---------------------------------------------------------------------------------
+#-----------------------Label for displaying elements from the csv----------------------------------------------------------
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(225, 285, 900, 900)) #lex,y,w,h
         self.label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label.setObjectName("label")
-#---------------------------------------------------------------------------------------------
-        
 
+
+#----------------------(Layers on top of one another)(Rise)(Eg: button on top of white background-----------------------------------------------------------------------
         self.btnCat1.raise_()
         self.btnCat2.raise_()
         self.btnCat3.raise_()
@@ -280,6 +281,8 @@ class Ui_MainWindow(object):
         self.btnCat15.raise_()
         self.btnCat10.raise_()
 
+#---------------Changing window to adding resource)-----------------
+## It chanegs the window from main window to adding resource window whilst hiding (Function below) the main window
         self.btnAddResource.clicked.connect(self.openResourceWindow)
         
         MainWindow.setCentralWidget(self.centralwidget)
@@ -289,6 +292,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+#-------------------------------------------------------------------
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -317,28 +321,34 @@ class Ui_MainWindow(object):
         self.btnCat15.setText(_translate("MainWindow", "Other resources"))
         self.btnCat10.setText(_translate("MainWindow", "Movies"))
 
+#-----------------------------Addition to changing window (Hiding main window)---------------------------------------------
     def openResourceWindow(self):
         self.childWin = QtWidgets.QMainWindow()
         self.childui = AddResource.Ui_MainWindow()
         self.childui.setupUi(self.childWin)
         self.childWin.show()
-        self.childui.btnBack.clicked.connect(self.letMeDieOutside)
+        self.childui.btnBack.clicked.connect(self.LMDO)
         MainWindow.hide()
     
-    def letMeDieOutside(self):
+    def LMDO(self):
         self.childWin.close()
         MainWindow.show()
         self.label.setText("")
         
-#-------------------Clicking buttons-------------------
+##-------------------Clicking buttons function (Categories)-------------------
+## There is individual functions for each category button, making each one grab specific information/elements from the CSV file that is relavent to that category.
 
-    def clickCat1(self): #Audiobooks
+
+
+    def clickCat1(self): 
         templist=[]
+        #Temporary Strings
         tempstr=""
         tempstr2=""
         csvFile=open("Resource list.csv")
         for anyText in csvFile:
                 anyText=anyText.rstrip("\n")
+                #Everything between commas becomes an element of the array
                 anyText=anyText.split(",")
                 print(anyText[0])
                 if anyText[3]=="Audiobooks":
@@ -346,13 +356,20 @@ class Ui_MainWindow(object):
                         templist.append(templist2)
         for y in templist:
                 print(y)
+                #Turns list into string
                 y=str(y)
+                #Removing (',[,])
                 for z in y:
                         print(z)
+                        #Inappropriate elements (States above)
                         if z in self.clist:
+                                 #Inappropriate element doesn't get add to the temporary strings
                                 z=""
                         tempstr2+=z
+                #Current string (Title, Author, Description). Creates new line which goes through the loop and current string doesnt display
+                #(tempstr2) anymore as it goes throught the next line. 
                 tempstr=tempstr+tempstr2+"\n"
+                #Stops displaying previous string as new line is created
                 tempstr2=""
         self.label.setText(tempstr)
         
@@ -704,29 +721,46 @@ class Ui_MainWindow(object):
 
 #------------------------Searching function (Linear Search)---------------------------------------
     def searchButtonPressed(self):
+            #list
             namelist=[]
+            noresults=True
+            #Opening CSV
             with open('Resource list.csv') as csvDataFile:
                 csvReader= csv.reader(csvDataFile)
                 c=self.pteSearch.toPlainText().lower()
                 for row in csvReader:
-                        
-                        if c in row[0].lower():
+                        ##Information from each row, from left to right. 0 representing the title, 1 the author, 2 the description and 3 the category.
+                        if c in row[0].lower(): #Title row
                                 namelist.append(row)
-                        elif not row[1]=="":
-                                if c in row[1].lower():
+                                #if the searched item isn't under tiles
+                                noresults=False
+                        elif not row[1]=="": #Author row
+                                if c in row[1].lower(): 
                                         namelist.append(row)
-                        elif not row[2]=="":
+                                        #if the searched item isn't under Authors
+                                        noresults=False
+                        elif not row[2]=="": #Description row
                                 if c in row[2].lower():
                                         namelist.append(row)
-                        elif c in row[3].lower():
+                                        #if the searched item isn't under Descriptions
+                                        noresults=False
+                        elif c in row[3].lower(): #Category row
                                 namelist.append(row)
-                        
+                                #if the searched item isn't under Categories
+                                noresults=False
                 b=""
                 for a in namelist:
                         b+=str(a) + "\n"
                 self.label.setText(b)
-                
 
+                #If the input isn't in the csv it will display no results on the label
+                if noresults == True:
+                        self.label.setText("No results")
+                        
+
+
+
+          
 
 if __name__ == "__main__":
     import sys
