@@ -1,10 +1,11 @@
-# -*- coding: utf-8 -*-
+#-------------------------------------------------------------------------------------------------------------------------------
+##Title: Finding the book (MainWindow)
+##Author: Michael Curcio
+##Description: This is the second/adding resource window for the FTB program. It is the window that allows the user to add a reource into the csv, 
+## the categories are also on this window and serve the same function. When the user addsa resource they are able to search thfor it in the search bar
+## and in the categories on the left hand side. 
+#-------------------------------------------------------------------------------------------------------------------------------
 
-# Form implementation generated from reading ui file 'Adding a resource window.ui'
-#
-# Created by: PyQt5 UI code generator 5.13.2
-#
-# WARNING! All changes made in this file will be lost!
 import csv 
 import main
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -12,12 +13,17 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+
+#----------------Data validation for categories---------------------------------------------------------------------
         self.clist=["'","[","]"]
+#-----------------------------------------------------------------------------------
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1196, 869)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+#-------------------------------------------------------------------------------------------------------
 
+#------------------------Buttons that have been assigned function---------------------------------------------------------------------
         self.btnCat9 = QtWidgets.QPushButton(self.centralwidget)
         self.btnCat9.setGeometry(QtCore.QRect(10, 540, 191, 28))
         self.btnCat9.setStyleSheet("background-color: transparent;\n"
@@ -243,7 +249,7 @@ class Ui_MainWindow(object):
         self.btnCat5.setObjectName("btnCat5")
         self.btnCat5.clicked.connect(self.clickCat5)
         self.btnCat5.clicked.connect(self.hideAll)
-
+#-------------------------------------------------------------------------------------------
 
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(290, 380, 55, 16))
@@ -258,6 +264,7 @@ class Ui_MainWindow(object):
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
 
+#-----------------------------------------------------------------------------------------------
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox.setGeometry(QtCore.QRect(290, 520, 160, 22))
         self.comboBox.setObjectName("comboBox")
@@ -277,6 +284,7 @@ class Ui_MainWindow(object):
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
+#-----------------------------------------------------------------------------------------------------------------
 
         self.plainTextEdit = QtWidgets.QPlainTextEdit(self.centralwidget)
         self.plainTextEdit.setGeometry(QtCore.QRect(380, 370, 251, 31))
@@ -327,7 +335,7 @@ class Ui_MainWindow(object):
         
       
 
-
+#--------------Items infront of the background--------------------------
         self.lBackground.raise_()
         self.btnCat9.raise_()
         self.btnCat15.raise_()
@@ -370,7 +378,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        #self.btnBack.clicked.connect(self.openMain)
+        
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -421,6 +429,8 @@ class Ui_MainWindow(object):
         self.label_4.setText(_translate("MainWindow", "Adding New Resource:"))
         self.plainTextEdit_4.setText(_translate("MainWindow", "Instructions:\n Add the the required information that is needed on the right-hand side of the heading.\nOnce the user clicks the \'add resource\' button, the information will be stored within the program."))
         self.pushButton.setText(_translate("MainWindow", "Add Resource"))
+#------------------Adding resource to the CSV function-----------------------
+## Every thing that is present in the plainTextEdits and combo box will be stored in the csv when pushButton is clicked ("Add resource")
     def saving(self):
             Title = ""
             Author = ""
@@ -431,13 +441,15 @@ class Ui_MainWindow(object):
             Author = self.plainTextEdit_2.toPlainText()
             Description = self.plainTextEdit_3.toPlainText()
             Category = self.comboBox.currentText()
-
+            #Storing everything in csv whilst creating a new line ('\n')
+            #The variables above
             print(type(Title), type(Author), type(Description), type(Category))
             file = open ("C:\\Users\\mcurci20\\OneDrive - Ivanhoe Grammar School\\Documents\\GitHub\\SearchingResourceApp\\Resource list.csv","a")
             file.writelines(Title + ',' + Author + ',' + Description + ',' + Category + '\n' )
             file.close ()
 
-#-------------------Clicking buttons-------------------
+#-----------------------When a category button is clicked the hideall function works--------------------------
+## It will hide all the plainTextEdits, Labels and buttons so it can display the resources chosen from the selected category on the left hand side
     def hideAll(self):
         self.plainTextEdit.setHidden(True)
         self.plainTextEdit_2.setHidden(True)
@@ -448,27 +460,37 @@ class Ui_MainWindow(object):
         self.label_4.setHidden(True)
         self.comboBox.setHidden(True)
         self.pushButton.setHidden(True)
-#------------------------------------------------------------
-    def clickCat1(self): #Audiobooks
+#-----------------Clicking buttons function (Categories)-------------------
+## There is individual functions for each category button, making each one grab specific information/elements from the CSV file that is relavent to that category.
+
+    def clickCat1(self): 
         templist=[]
         tempstr=""
         tempstr2=""
         csvFile=open("Resource list.csv")
         for x in csvFile:
                 x=x.rstrip("\n")
+                #Everything between commas becomes an element of the array
                 x=x.split(",")
                 if x[3]=="Audiobooks":
                         templist2=[x[0],x[1],x[2]]
                         templist.append(templist2)
         for y in templist:
                 print(y)
+                #Turns list into string
                 y=str(y)
+                #Removing (',[,])
                 for z in y:
                         print(z)
+                        #Inappropriate elements (States above)
                         if z in self.clist:
+                                #Inappropriate element doesn't get add to the temporary strings
                                 z=""
                         tempstr2+=z
+                #Current string (Title, Author, Description). Creates new line which goes through the loop and current string doesnt display
+                #(tempstr2) anymore as it goes throught the next line. 
                 tempstr=tempstr+tempstr2+"\n"
+                #Stops displaying previous string as new line is created
                 tempstr2=""
         self.label.setText(tempstr)
 
